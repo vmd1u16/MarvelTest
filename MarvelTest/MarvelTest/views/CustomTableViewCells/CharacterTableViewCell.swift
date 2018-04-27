@@ -39,7 +39,8 @@ class CharacterTableViewCell: UITableViewCell {
         button.titleLabel?.font = UIFont(name: "Helvetica Neue", size: 15.0)
         button.tintColor = UIColor.white
         button.backgroundColor = UIColor.red
-        button.setTitle("Learn more", for: .normal)
+        button.setTitle("LEARN MORE", for: .normal)
+        button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
         button.contentVerticalAlignment = .center
         
         return button
@@ -79,6 +80,9 @@ class CharacterTableViewCell: UITableViewCell {
         self.contentView.addSubview(moreButton)
         
         // set image to character image view
+        let imageURL = self.character.getThumbnail().getFullURL()
+        // load imageView async, if image was cached then is no need to get image from url,
+        characterImageView.loadImageUsingCache(withUrl: imageURL)
         
         // name label
         self.nameLabel.text = character.getName()
@@ -153,7 +157,7 @@ class CharacterTableViewCell: UITableViewCell {
         
        let yConstraint = NSLayoutConstraint(item: nameLabel, attribute: NSLayoutAttribute.centerY, relatedBy: .equal, toItem: self.moreButton, attribute: NSLayoutAttribute.centerY, multiplier: 1.0, constant: 0)
         
-       let widthConstraint = NSLayoutConstraint(item: nameLabel, attribute: .width, relatedBy: .equal,toItem: self.contentView, attribute: .width, multiplier: 0.60, constant: 0.0)
+       let widthConstraint = NSLayoutConstraint(item: nameLabel, attribute: .width, relatedBy: .equal,toItem: self.contentView, attribute: .width, multiplier: 0.50, constant: 0.0)
         
         self.contentView.addConstraints([leftConstraint, yConstraint, widthConstraint])
         

@@ -17,6 +17,8 @@ class CharactersTableViewController: UITableViewController {
     
     var charactersArray = [Character]()
     
+    var selectedIndex = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -109,7 +111,6 @@ class CharactersTableViewController: UITableViewController {
         
         // get charactersjson from results
         
-        
         for characterJson in charactersJson {
             let character = Character(json : characterJson as NSDictionary)
             charactersArray.append(character)
@@ -141,6 +142,11 @@ class CharactersTableViewController: UITableViewController {
      
         return cell
      }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedIndex = indexPath.row
+        self.performSegue(withIdentifier: "showViewCharacter", sender: self)
+    }
 
     
     /*
@@ -178,15 +184,17 @@ class CharactersTableViewController: UITableViewController {
      }
      */
     
-    /*
      // MARK: - Navigation
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
+     
+        if let vc = segue.destination as? ViewCharacterViewController {
+            vc.setCharacter(character: charactersArray[selectedIndex])
+        }
+        
      }
-     */
+ 
     
     func showActivityIndicator() {
         DispatchQueue.main.async {

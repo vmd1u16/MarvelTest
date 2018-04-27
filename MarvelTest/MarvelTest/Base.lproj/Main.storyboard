@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -33,10 +34,42 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="hpw-Id-ix4"/>
+                    <connections>
+                        <segue destination="Obx-Pv-PYl" kind="show" identifier="showViewCharacter" id="MiC-8M-f5x"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="omP-Bq-sdF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1192.8" y="30.134932533733135"/>
+        </scene>
+        <!--View Character View Controller-->
+        <scene sceneID="d71-sB-Ab0">
+            <objects>
+                <viewController id="Obx-Pv-PYl" customClass="ViewCharacterViewController" customModule="MarvelTest" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Qgj-D5-lUh">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jxx-6E-VOv">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="jxx-6E-VOv" firstAttribute="top" secondItem="J2G-Sq-5Az" secondAttribute="top" id="hsG-Yg-Lwv"/>
+                            <constraint firstItem="J2G-Sq-5Az" firstAttribute="trailing" secondItem="jxx-6E-VOv" secondAttribute="trailing" id="ied-n2-87V"/>
+                            <constraint firstItem="J2G-Sq-5Az" firstAttribute="bottom" secondItem="jxx-6E-VOv" secondAttribute="bottom" id="nUe-oA-77l"/>
+                            <constraint firstItem="jxx-6E-VOv" firstAttribute="leading" secondItem="J2G-Sq-5Az" secondAttribute="leading" id="wlI-JH-WEa"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="J2G-Sq-5Az"/>
+                    </view>
+                    <connections>
+                        <outlet property="scrollView" destination="jxx-6E-VOv" id="Gyp-ck-Lxv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hAk-Yp-vBp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1972" y="30"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="zNi-hO-CG0">

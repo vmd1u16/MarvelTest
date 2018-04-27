@@ -13,4 +13,8 @@ struct Thumbnail {
     var path : String
     var imgExtension : String
     
+    func getFullURL() -> String {
+        return "\(self.path).\(self.imgExtension)"
+    }
+    
 }
