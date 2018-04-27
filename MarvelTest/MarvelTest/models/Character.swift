@@ -37,4 +37,21 @@ class Character {
         
     }
     
+    // getters
+    func getID() -> Int {
+        return id!
+    }
+    
+    func getName() -> String {
+        return name!
+    }
+    
+    func getDescription() -> String? {
+        return description
+    }
+    
+    func getThumbnail() -> Thumbnail {
+        return thumbnail!
+    }
+    
 }
