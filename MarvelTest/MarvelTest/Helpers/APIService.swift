@@ -17,8 +17,6 @@ class APIService {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         var stringUrl = url
         
-        
-        print(params ?? "no params")
         // add parameters (if any) to the url
         if let params = params {
             stringUrl.append("?")
@@ -48,7 +46,9 @@ class APIService {
             completionHandler(data as NSData?, response, error as NSError?)
             
             // Stop download indication
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+              DispatchQueue.main.async {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }
         }
         
         task.resume()

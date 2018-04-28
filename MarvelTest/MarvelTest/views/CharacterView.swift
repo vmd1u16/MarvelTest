@@ -39,8 +39,6 @@ class CharacterView: UIView {
         button.titleLabel?.font = UIFont(name: "Helvetica Neue", size: 15.0)
         button.tintColor = UIColor.white
         button.backgroundColor = UIColor.red
-        button.setTitle("READ MORE ONLINE", for: .normal)
-        button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
         button.contentVerticalAlignment = .center
         
         return button
@@ -70,7 +68,7 @@ class CharacterView: UIView {
         label.font = UIFont(name: "Helvetica Neue", size: 20.0)
         label.textColor = UIColor.black
         label.layer.masksToBounds = true
-        label.text = "There is no description needed"
+        label.text = "There is no description for this character"
         label.numberOfLines = 0
         
         return label
@@ -98,25 +96,26 @@ class CharacterView: UIView {
         self.translatesAutoresizingMaskIntoConstraints = false
         
         self.scrollView.addSubview(self)
+        self.backgroundColor = .white
         
         let leftConstraint = NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.leading, relatedBy: .equal, toItem: self.scrollView,
-                                                attribute: NSLayoutAttribute.leading, multiplier: 1.0, constant: 0)
+                                                attribute: NSLayoutAttribute.leading, multiplier: 1.0, constant: 20)
         
         let topConstraint = NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.top, relatedBy: .equal, toItem: self.scrollView,
-                                               attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: 0)
+                                               attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: 20)
         
         let rightConstraint = NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.trailing, relatedBy: .equal, toItem: self.scrollView,
-                                                 attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0)
+                                                 attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: -20)
         
         let bottomConstraint = NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.bottom, relatedBy: .equal, toItem: self.scrollView,
                                                   attribute: NSLayoutAttribute.bottom, multiplier: 1.0,
-                                                  constant: 0)
+                                                  constant: -20)
         
         self.scrollView.addConstraints([leftConstraint, rightConstraint, topConstraint, bottomConstraint])
         
         let widthConstraint = NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal,
                                                  toItem: self.parentView, attribute: .width,
-                                                 multiplier: 1, constant: 0.0)
+                                                 multiplier: 1, constant: -40)
         
         self.parentView.addConstraint(widthConstraint)
         
@@ -128,6 +127,7 @@ class CharacterView: UIView {
         self.addSubview(characterImageView)
         self.addSubview(nameLabel)
         self.addSubview(descriptionLabel)
+        
         
         if self.character.getDetailURL() != nil {
             self.addSubview(linkButton)
@@ -154,6 +154,23 @@ class CharacterView: UIView {
             
         })
         
+        
+        // add blur image view to parent view -  for cases when scroll view's height is less than the screen bounds height
+        let backgroundImageView = UIImageView(frame: UIScreen.main.bounds)
+        backgroundImageView.loadImageUsingCache(withUrl: imageURL)
+        backgroundImageView.contentMode =  UIViewContentMode.scaleAspectFill
+        backgroundImageView.clipsToBounds = true
+        
+        // add blur to image view
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = backgroundImageView.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        backgroundImageView.addSubview(blurEffectView)
+        
+        self.parentView.insertSubview(backgroundImageView, at: 0)
+    
+        
         // name label
         self.nameLabel.text = character.getName()
         
@@ -170,13 +187,13 @@ class CharacterView: UIView {
         // character thumbnail image
         
         
-        var leftConstraint = NSLayoutConstraint(item: characterImageView, attribute: NSLayoutAttribute.leading, relatedBy: .equal, toItem: self, attribute: NSLayoutAttribute.leading, multiplier: 1.0, constant: 20)
+        var leftConstraint = NSLayoutConstraint(item: characterImageView, attribute: NSLayoutAttribute.leading, relatedBy: .equal, toItem: self, attribute: NSLayoutAttribute.leading, multiplier: 1.0, constant: 0)
         
-        var topConstraint = NSLayoutConstraint(item: characterImageView, attribute: NSLayoutAttribute.top, relatedBy: .equal, toItem: self, attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: 20)
+        var topConstraint = NSLayoutConstraint(item: characterImageView, attribute: NSLayoutAttribute.top, relatedBy: .equal, toItem: self, attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: 0)
         
         
         
-        var rightConstraint = NSLayoutConstraint(item: characterImageView, attribute: NSLayoutAttribute.trailing, relatedBy: .equal, toItem: self, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: -20)
+        var rightConstraint = NSLayoutConstraint(item: characterImageView, attribute: NSLayoutAttribute.trailing, relatedBy: .equal, toItem: self, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0)
         
         
         self.addConstraints([leftConstraint, topConstraint, rightConstraint])
@@ -204,13 +221,29 @@ class CharacterView: UIView {
         
         // read more online button
         
+        let btnImage = UIImage(named: "btn_online")!
+        linkButton.setImage(btnImage, for: .normal)
+        
+        let aspectRatioConstraint = NSLayoutConstraint(item: linkButton,
+                                                   attribute: .height,
+                                                   relatedBy: .equal,
+                                                   toItem: linkButton,
+                                                   attribute: .width,
+                                                   multiplier: (btnImage.size.height / btnImage.size.width),
+                                                   constant: 0)
+        
+        
+        linkButton.addConstraint(aspectRatioConstraint)
+        
         let xConstraint = NSLayoutConstraint(item: linkButton, attribute: NSLayoutAttribute.centerX, relatedBy: .equal, toItem: self, attribute: NSLayoutAttribute.centerX, multiplier: 1.0, constant: 0)
         
         topConstraint = NSLayoutConstraint(item: linkButton, attribute: NSLayoutAttribute.top, relatedBy: .equal, toItem: self.descriptionLabel, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 40)
         
         let bottomConstraint = NSLayoutConstraint(item: linkButton, attribute: NSLayoutAttribute.bottom, relatedBy: .equal, toItem: self, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: -40)
         
-        self.addConstraints([xConstraint, topConstraint, bottomConstraint])
+        let widthConstraint = NSLayoutConstraint(item: linkButton, attribute: .width, relatedBy: .equal,toItem: self, attribute: .width, multiplier: 0.6, constant: 0.0)
+        
+        self.addConstraints([xConstraint, topConstraint, bottomConstraint, widthConstraint])
         
     }
     

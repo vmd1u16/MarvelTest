@@ -8,8 +8,14 @@
 
 import UIKit
 
+protocol CharacterViewCellProtocol {
+    func learnMoreBtnPressed(sender : UIButton)
+}
+
+
 class CharacterTableViewCell: UITableViewCell {
 
+    var delegate : CharacterViewCellProtocol!
     var character : Character!
     
     var characterImageView: UIImageView = {
@@ -38,10 +44,7 @@ class CharacterTableViewCell: UITableViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont(name: "Helvetica Neue", size: 15.0)
         button.tintColor = UIColor.white
-        button.backgroundColor = UIColor.red
-        button.setTitle("LEARN MORE", for: .normal)
-        button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
-        button.contentVerticalAlignment = .center
+        button.backgroundColor = UIColor.clear
         
         return button
         
@@ -74,15 +77,23 @@ class CharacterTableViewCell: UITableViewCell {
     
     func setupViews() {
         
+        for subview in self.contentView.subviews {
+            subview.removeFromSuperview()
+        }
+        
         self.contentView.addSubview(shadowView)
         self.contentView.addSubview(characterImageView)
         self.contentView.addSubview(nameLabel)
         self.contentView.addSubview(moreButton)
         
+        moreButton.addTarget(self, action: #selector(learnMoreBtnPressed(sender:)), for: .touchUpInside)
+        
         // set image to character image view
         let imageURL = self.character.getThumbnail().getFullURL()
         // load imageView async, if image was cached then is no need to get image from url,
         characterImageView.loadImageUsingCache(withUrl: imageURL)
+        characterImageView.contentMode = .scaleAspectFill
+        characterImageView.clipsToBounds = true
         
         // name label
         self.nameLabel.text = character.getName()
@@ -140,27 +151,49 @@ class CharacterTableViewCell: UITableViewCell {
         
         self.contentView.addConstraints([leftConstraint, topConstraint, rightConstraint])
         
-        
-        // more button
-        
-        rightConstraint = NSLayoutConstraint(item: moreButton, attribute: NSLayoutAttribute.trailing, relatedBy: .equal, toItem: self.characterImageView, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0)
-        
-        topConstraint = NSLayoutConstraint(item: moreButton, attribute: NSLayoutAttribute.top, relatedBy: .equal, toItem: self.characterImageView, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 20)
-        
-        let bottomConstraint = NSLayoutConstraint(item: moreButton, attribute: NSLayoutAttribute.bottom, relatedBy: .equal, toItem: self.contentView, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: -20)
-        
-        self.contentView.addConstraints([rightConstraint, topConstraint, bottomConstraint])
-        
         // name label
         
         leftConstraint = NSLayoutConstraint(item: nameLabel, attribute: NSLayoutAttribute.leading, relatedBy: .equal, toItem: self.characterImageView, attribute: NSLayoutAttribute.leading, multiplier: 1.0, constant: 0)
         
-       let yConstraint = NSLayoutConstraint(item: nameLabel, attribute: NSLayoutAttribute.centerY, relatedBy: .equal, toItem: self.moreButton, attribute: NSLayoutAttribute.centerY, multiplier: 1.0, constant: 0)
+        topConstraint = NSLayoutConstraint(item: nameLabel, attribute: NSLayoutAttribute.top, relatedBy: .equal, toItem: self.characterImageView, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 20)
         
-       let widthConstraint = NSLayoutConstraint(item: nameLabel, attribute: .width, relatedBy: .equal,toItem: self.contentView, attribute: .width, multiplier: 0.50, constant: 0.0)
+        let bottomConstraint = NSLayoutConstraint(item: nameLabel, attribute: NSLayoutAttribute.bottom, relatedBy: .equal, toItem: self.contentView, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: -20)
         
-        self.contentView.addConstraints([leftConstraint, yConstraint, widthConstraint])
         
+        var widthConstraint = NSLayoutConstraint(item: nameLabel, attribute: .width, relatedBy: .equal,toItem: self.contentView, attribute: .width, multiplier: 0.50, constant: 0.0)
+        
+        self.contentView.addConstraints([leftConstraint, topConstraint, bottomConstraint, widthConstraint])
+        
+        // more button
+    
+        let btnImage = UIImage(named: "btn_learnmore")!
+        moreButton.setImage(btnImage, for: .normal)
+        
+        aspectRatioConstraint = NSLayoutConstraint(item: moreButton,
+                                                   attribute: .height,
+                                                   relatedBy: .equal,
+                                                   toItem: moreButton,
+                                                   attribute: .width,
+                                                   multiplier: (btnImage.size.height / btnImage.size.width),
+                                                   constant: 0)
+        
+        
+        moreButton.addConstraint(aspectRatioConstraint)
+        
+        rightConstraint = NSLayoutConstraint(item: moreButton, attribute: NSLayoutAttribute.trailing, relatedBy: .equal, toItem: self.characterImageView, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0)
+        
+        let yConstraint = NSLayoutConstraint(item: moreButton, attribute: NSLayoutAttribute.centerY, relatedBy: .equal, toItem: self.nameLabel, attribute: NSLayoutAttribute.centerY, multiplier: 1.0, constant: 0)
+       
+        
+        widthConstraint = NSLayoutConstraint(item: moreButton, attribute: .width, relatedBy: .equal,toItem: self.contentView, attribute: .width, multiplier: 0.33, constant: 0.0)
+        
+        self.contentView.addConstraints([rightConstraint, yConstraint, widthConstraint])
+        
+        
+    }
+    
+    @objc func learnMoreBtnPressed(sender: UIButton) {
+        delegate.learnMoreBtnPressed(sender: sender)
     }
     
     

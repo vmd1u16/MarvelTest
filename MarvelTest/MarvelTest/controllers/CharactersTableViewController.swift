@@ -8,9 +8,8 @@
 
 import UIKit
 
-class CharactersTableViewController: UITableViewController {
-    
-    
+class CharactersTableViewController: UITableViewController, CharacterViewCellProtocol {
+   
     // loading view
     var spinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     var loadingView: UIView = UIView()
@@ -115,12 +114,15 @@ class CharactersTableViewController: UITableViewController {
             let character = Character(json : characterJson as NSDictionary)
             charactersArray.append(character)
         }
-        
-        
-        
-        
+
         completionHandler(true)
     }
+    
+    func learnMoreBtnPressed(sender: UIButton) {
+        selectedIndex = sender.tag
+        self.performSegue(withIdentifier: "showViewCharacter", sender: self)
+    }
+    
     
     // MARK: - Table view data source
     
@@ -136,8 +138,10 @@ class CharactersTableViewController: UITableViewController {
      let cell = tableView.dequeueReusableCell(withIdentifier: "characterCell", for: indexPath) as! CharacterTableViewCell
      
         cell.selectionStyle = .none
+        cell.delegate = self
         cell.setCharacter(character: charactersArray[indexPath.row])
         cell.setupViews()
+        cell.moreButton.tag = indexPath.row
         cell.separatorInset = UIEdgeInsets(top: 0, left: 20 , bottom: 0, right: 0)
      
         return cell
@@ -207,7 +211,7 @@ class CharactersTableViewController: UITableViewController {
             self.loadingView.clipsToBounds = true
             self.loadingView.layer.cornerRadius = 10
             
-            self.spinner.color = UIColor.darkGray
+            self.spinner.color = UIColor.red
             self.spinner.frame = CGRect(x: 0.0, y: 0.0, width: 30.0, height: 30.0)
             self.spinner.center = CGPoint(x:self.loadingView.bounds.size.width / 2, y:self.loadingView.bounds.size.height / 2)
             

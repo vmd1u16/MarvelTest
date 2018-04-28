@@ -23,6 +23,9 @@ class ViewCharacterViewController: UIViewController, CharacterViewProtocol {
     
     override func viewWillAppear(_ animated: Bool) {
         
+        self.navigationItem.title = self.character.getName()
+        let attributes = [NSAttributedStringKey.font : UIFont(name: "Helvetica Neue", size: 18)!, NSAttributedStringKey.foregroundColor : UIColor.white]
+        self.navigationController?.navigationBar.titleTextAttributes = attributes
         navigationController?.navigationBar.tintColor = .white
         
         setupViews()
