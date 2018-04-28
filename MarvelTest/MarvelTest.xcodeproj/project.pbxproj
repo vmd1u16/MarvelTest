@@ -22,6 +22,7 @@
 		F5B1B3B52093D0A500170285 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B1B3B42093D0A500170285 /* Extensions.swift */; };
 		F5B1B3B92093D4FC00170285 /* ViewCharacterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B1B3B82093D4FC00170285 /* ViewCharacterViewController.swift */; };
 		F5B1B3BC2093D75E00170285 /* CharacterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B1B3BB2093D75E00170285 /* CharacterView.swift */; };
+		F5B1B3BE2093EC9400170285 /* Url.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B1B3BD2093EC9400170285 /* Url.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		F5B1B3B42093D0A500170285 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		F5B1B3B82093D4FC00170285 /* ViewCharacterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCharacterViewController.swift; sourceTree = "<group>"; };
 		F5B1B3BB2093D75E00170285 /* CharacterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterView.swift; sourceTree = "<group>"; };
+		F5B1B3BD2093EC9400170285 /* Url.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Url.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +161,7 @@
 			children = (
 				F5B1B3A720938B2C00170285 /* Character.swift */,
 				F5B1B3AA20938E9600170285 /* Thumbnail.swift */,
+				F5B1B3BD2093EC9400170285 /* Url.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -331,6 +334,7 @@
 				F5B1B3B52093D0A500170285 /* Extensions.swift in Sources */,
 				F5B1B3AB20938E9600170285 /* Thumbnail.swift in Sources */,
 				F5B1B3A820938B2C00170285 /* Character.swift in Sources */,
+				F5B1B3BE2093EC9400170285 /* Url.swift in Sources */,
 				F5B1B3A52093882F00170285 /* HelperMethods.swift in Sources */,
 				F5B1B3A3209386E900170285 /* APIService.swift in Sources */,
 			);

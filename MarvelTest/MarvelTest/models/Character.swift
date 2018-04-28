@@ -15,6 +15,7 @@ class Character {
     var name : String?
     var description : String?
     var thumbnail : Thumbnail?
+    var detailURL : String?
     
     init(json : NSDictionary) {
        
@@ -35,6 +36,16 @@ class Character {
             self.thumbnail = thumbnail
         }
         
+        if let urls = json["urls"] as? [NSDictionary] {
+            for urlObject in urls {
+                let url = Url(type : urlObject["type"] as! String, url : urlObject["url"] as! String)
+                if url.getType() == "detail" {
+                    self.detailURL = url.getURL()
+                    break
+                }
+            }
+        }
+        
     }
     
     // getters
@@ -52,6 +63,10 @@ class Character {
     
     func getThumbnail() -> Thumbnail {
         return thumbnail!
+    }
+    
+    func getDetailURL() -> String? {
+        return detailURL
     }
     
 }

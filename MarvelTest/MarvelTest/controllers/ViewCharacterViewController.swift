@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewCharacterViewController: UIViewController {
+class ViewCharacterViewController: UIViewController, CharacterViewProtocol {
     
     @IBOutlet weak var scrollView: UIScrollView!
     var characterView = CharacterView()
@@ -30,6 +30,7 @@ class ViewCharacterViewController: UIViewController {
     
     func setupViews() {
         
+        characterView.delegate = self
         characterView.setup(character: character, scrollView: scrollView, parentView: self.view)
         characterView.setupViews()
         
@@ -39,6 +40,11 @@ class ViewCharacterViewController: UIViewController {
         self.character = character
     }
     
+    func linkBtnPressed(urlString: String) {
+        if let url = URL(string: urlString){
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

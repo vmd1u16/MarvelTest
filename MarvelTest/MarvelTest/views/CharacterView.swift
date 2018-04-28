@@ -8,7 +8,13 @@
 
 import UIKit
 
+protocol CharacterViewProtocol {
+    func linkBtnPressed(urlString : String)
+}
+
 class CharacterView: UIView {
+    
+    var delegate : CharacterViewProtocol!
     
     var scrollView: UIScrollView!
     var parentView: UIView!
@@ -80,6 +86,11 @@ class CharacterView: UIView {
     }
     
     func setup(character : Character, scrollView : UIScrollView, parentView :  UIView) {
+        
+        for subview in subviews {
+            subview.removeFromSuperview()
+        }
+        
         self.character = character
         self.scrollView = scrollView
         self.parentView = parentView
@@ -117,7 +128,12 @@ class CharacterView: UIView {
         self.addSubview(characterImageView)
         self.addSubview(nameLabel)
         self.addSubview(descriptionLabel)
-        self.addSubview(linkButton)
+        
+        if self.character.getDetailURL() != nil {
+            self.addSubview(linkButton)
+            self.linkButton.addTarget(self, action: #selector(linkBtnPressed(sender:)), for: .touchUpInside)
+        }
+        
         
         // set image to character image view
         let imageURL = self.character.getThumbnail().getFullURL()
@@ -196,6 +212,10 @@ class CharacterView: UIView {
         
         self.addConstraints([xConstraint, topConstraint, bottomConstraint])
         
+    }
+    
+    @objc func linkBtnPressed(sender : UIButton) {
+        delegate.linkBtnPressed(urlString: self.character.getDetailURL()!)
     }
     
     
