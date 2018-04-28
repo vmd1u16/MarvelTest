@@ -154,7 +154,7 @@ class CharactersTableViewController: UITableViewController, CharacterViewCellPro
         completionHandler(true)
     }
     
-    // check if character is stored in DB and update it
+    // check if character is stored in DB
     func checkIfCharacterIsStoredInDB(character : Character) -> Bool {
         
         var isInDB = false
