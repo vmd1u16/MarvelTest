@@ -41,7 +41,6 @@ class CharactersTableViewController: UITableViewController, CharacterViewCellPro
     }
     
     
-    
     func getCharacters() {
         
         

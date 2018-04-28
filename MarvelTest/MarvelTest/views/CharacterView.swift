@@ -155,7 +155,7 @@ class CharacterView: UIView {
         })
         
         
-        // add blur image view to parent view -  for cases when scroll view's height is less than the screen bounds height
+        // blurred background view
         let backgroundImageView = UIImageView(frame: UIScreen.main.bounds)
         backgroundImageView.loadImageUsingCache(withUrl: imageURL)
         backgroundImageView.contentMode =  UIViewContentMode.scaleAspectFill
@@ -185,7 +185,6 @@ class CharacterView: UIView {
     func setConstraints() {
         
         // character thumbnail image
-        
         
         var leftConstraint = NSLayoutConstraint(item: characterImageView, attribute: NSLayoutAttribute.leading, relatedBy: .equal, toItem: self, attribute: NSLayoutAttribute.leading, multiplier: 1.0, constant: 0)
         
@@ -246,7 +245,7 @@ class CharacterView: UIView {
             self.addConstraints([xConstraint, topConstraint, bottomConstraint, widthConstraint])
         }
         
-        //setup bottom constraint from description label
+        //setup bottom constraint for description label
         else {
             let bottomConstraint = NSLayoutConstraint(item: descriptionLabel, attribute: NSLayoutAttribute.bottom, relatedBy: .equal, toItem: self, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: -40)
             self.addConstraint(bottomConstraint)

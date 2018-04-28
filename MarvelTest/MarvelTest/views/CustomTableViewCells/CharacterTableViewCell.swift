@@ -88,8 +88,9 @@ class CharacterTableViewCell: UITableViewCell {
         
         moreButton.addTarget(self, action: #selector(learnMoreBtnPressed(sender:)), for: .touchUpInside)
         
-        // set image to character image view
+        
         let imageURL = self.character.getThumbnail().getFullURL()
+        
         // load imageView async, if image was cached then is no need to get image from url,
         characterImageView.loadImageUsingCache(withUrl: imageURL)
         characterImageView.contentMode = .scaleAspectFill
