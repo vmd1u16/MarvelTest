@@ -72,3 +72,24 @@ extension UIImageView {
     }
     
 }
+
+extension String
+{
+    func toDate() -> Date
+    {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss-SSSS"
+       
+        return dateFormatter.date(from: self)!
+    }
+}
+
+extension Date {
+    
+    func getUnixTime() -> Double {
+        
+        return self.timeIntervalSince1970
+        
+    }
+    
+}

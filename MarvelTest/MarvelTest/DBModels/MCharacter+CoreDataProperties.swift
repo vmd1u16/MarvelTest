@@ -20,8 +20,9 @@ extension MCharacter {
     @NSManaged public var id: Int64
     @NSManaged public var name: String?
     @NSManaged public var mDescription: String?
+    @NSManaged public var modified: Double
     @NSManaged public var thumbnailPath: String?
-     @NSManaged public var thumbnailExtension: String?
+    @NSManaged public var thumbnailExtension: String?
     @NSManaged public var detailURL: String?
 
 }

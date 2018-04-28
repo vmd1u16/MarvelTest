@@ -137,7 +137,7 @@ class CharacterView: UIView {
         
         // set image to character image view
         let imageURL = self.character.getThumbnail().getFullURL()
-            
+        
         // load imageView async and get the aspect ratio from the downloaded image
         characterImageView.loadImageGetRatio(withUrl: imageURL, completionHandler: { ( ratio ) -> Void in
             
@@ -169,7 +169,7 @@ class CharacterView: UIView {
         backgroundImageView.addSubview(blurEffectView)
         
         self.parentView.insertSubview(backgroundImageView, at: 0)
-    
+        
         
         // name label
         self.nameLabel.text = character.getName()
@@ -220,30 +220,38 @@ class CharacterView: UIView {
         self.addConstraints([leftConstraint, rightConstraint, topConstraint])
         
         // read more online button
+        if self.character.getDetailURL() != nil {
+            let btnImage = UIImage(named: "btn_online")!
+            linkButton.setImage(btnImage, for: .normal)
+            
+            let aspectRatioConstraint = NSLayoutConstraint(item: linkButton,
+                                                           attribute: .height,
+                                                           relatedBy: .equal,
+                                                           toItem: linkButton,
+                                                           attribute: .width,
+                                                           multiplier: (btnImage.size.height / btnImage.size.width),
+                                                           constant: 0)
+            
+            
+            linkButton.addConstraint(aspectRatioConstraint)
+            
+            let xConstraint = NSLayoutConstraint(item: linkButton, attribute: NSLayoutAttribute.centerX, relatedBy: .equal, toItem: self, attribute: NSLayoutAttribute.centerX, multiplier: 1.0, constant: 0)
+            
+            topConstraint = NSLayoutConstraint(item: linkButton, attribute: NSLayoutAttribute.top, relatedBy: .equal, toItem: self.descriptionLabel, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 40)
+            
+            let bottomConstraint = NSLayoutConstraint(item: linkButton, attribute: NSLayoutAttribute.bottom, relatedBy: .equal, toItem: self, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: -40)
+            
+            let widthConstraint = NSLayoutConstraint(item: linkButton, attribute: .width, relatedBy: .equal,toItem: self, attribute: .width, multiplier: 0.6, constant: 0.0)
+            
+            self.addConstraints([xConstraint, topConstraint, bottomConstraint, widthConstraint])
+        }
         
-        let btnImage = UIImage(named: "btn_online")!
-        linkButton.setImage(btnImage, for: .normal)
-        
-        let aspectRatioConstraint = NSLayoutConstraint(item: linkButton,
-                                                   attribute: .height,
-                                                   relatedBy: .equal,
-                                                   toItem: linkButton,
-                                                   attribute: .width,
-                                                   multiplier: (btnImage.size.height / btnImage.size.width),
-                                                   constant: 0)
-        
-        
-        linkButton.addConstraint(aspectRatioConstraint)
-        
-        let xConstraint = NSLayoutConstraint(item: linkButton, attribute: NSLayoutAttribute.centerX, relatedBy: .equal, toItem: self, attribute: NSLayoutAttribute.centerX, multiplier: 1.0, constant: 0)
-        
-        topConstraint = NSLayoutConstraint(item: linkButton, attribute: NSLayoutAttribute.top, relatedBy: .equal, toItem: self.descriptionLabel, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 40)
-        
-        let bottomConstraint = NSLayoutConstraint(item: linkButton, attribute: NSLayoutAttribute.bottom, relatedBy: .equal, toItem: self, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: -40)
-        
-        let widthConstraint = NSLayoutConstraint(item: linkButton, attribute: .width, relatedBy: .equal,toItem: self, attribute: .width, multiplier: 0.6, constant: 0.0)
-        
-        self.addConstraints([xConstraint, topConstraint, bottomConstraint, widthConstraint])
+        //setup bottom constraint from description label
+        else {
+            let bottomConstraint = NSLayoutConstraint(item: descriptionLabel, attribute: NSLayoutAttribute.bottom, relatedBy: .equal, toItem: self, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: -40)
+            self.addConstraint(bottomConstraint)
+            
+        }
         
     }
     

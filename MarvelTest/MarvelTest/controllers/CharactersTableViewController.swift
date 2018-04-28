@@ -120,10 +120,6 @@ class CharactersTableViewController: UITableViewController, CharacterViewCellPro
     
     func parseCharactersJson(responseObject : [String : Any], completionHandler: @escaping (_ completed: Bool) -> ()) {
         
-        /*if self.refreshhControl.isRefreshing {
-         adsArray.removeAll()
-         }*/
-        
         guard let dataObject = responseObject["data"] as? [String : Any] else {
             completionHandler(true)
             return
@@ -185,14 +181,18 @@ class CharactersTableViewController: UITableViewController, CharacterViewCellPro
         mCharacter.id = Int64(character.getID())
         mCharacter.name = character.getName()
         mCharacter.mDescription = character.getDescription()
+        mCharacter.modified = character.getModified()
         mCharacter.thumbnailPath = character.getThumbnail().getPath()
         mCharacter.thumbnailExtension = character.getThumbnail().getExtension()
+        mCharacter.detailURL = character.getDetailURL()
     }
     
     
     func fetchCharactersFromLocalDB(completionHandler: @escaping (_ completed: Bool?) -> ()) {
         
         let request = MCharacter.createFetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "modified", ascending: false)
+        request.sortDescriptors = [sortDescriptor]
         
         do {
             let mCharacters = try managedObjectContext.fetch(request)

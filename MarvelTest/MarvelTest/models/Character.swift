@@ -14,6 +14,7 @@ class Character {
     var id : Int?
     var name : String?
     var description : String?
+    var modified : Double?
     var thumbnail : Thumbnail?
     var detailURL : String?
     
@@ -29,6 +30,12 @@ class Character {
         
         if let s = json["description"] as? String {
             self.description = s
+        }
+        
+        if let s = json["modified"] as? String {
+            let date = s.toDate()
+            let unixTime = date.getUnixTime()
+            self.modified = unixTime
         }
         
         if let s = json["thumbnail"] as? NSDictionary {
@@ -54,6 +61,7 @@ class Character {
         self.name = mCharacter.name
         self.description = mCharacter.mDescription
         self.detailURL = mCharacter.detailURL
+        self.modified = mCharacter.modified
         
         if let path = mCharacter.thumbnailPath {
             if let tExtension = mCharacter.thumbnailExtension {
@@ -76,6 +84,10 @@ class Character {
     
     func getDescription() -> String? {
         return description
+    }
+    
+    func getModified() -> Double {
+        return modified!
     }
     
     func getThumbnail() -> Thumbnail {
