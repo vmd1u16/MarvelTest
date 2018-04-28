@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F515FAE420949AE600F3AA60 /* Marvel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F515FAE220949AE600F3AA60 /* Marvel.xcdatamodeld */; };
+		F515FAEB20949D5B00F3AA60 /* MCharacter+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F515FAE920949D5B00F3AA60 /* MCharacter+CoreDataClass.swift */; };
+		F515FAEC20949D5B00F3AA60 /* MCharacter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F515FAEA20949D5B00F3AA60 /* MCharacter+CoreDataProperties.swift */; };
 		F5B1B37320937CD000170285 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B1B37220937CD000170285 /* AppDelegate.swift */; };
 		F5B1B37520937CD000170285 /* CharactersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B1B37420937CD000170285 /* CharactersTableViewController.swift */; };
 		F5B1B37820937CD000170285 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5B1B37620937CD000170285 /* Main.storyboard */; };
@@ -43,6 +46,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F515FAE320949AE600F3AA60 /* Marvel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Marvel.xcdatamodel; sourceTree = "<group>"; };
+		F515FAE920949D5B00F3AA60 /* MCharacter+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MCharacter+CoreDataClass.swift"; sourceTree = "<group>"; };
+		F515FAEA20949D5B00F3AA60 /* MCharacter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MCharacter+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		F5B1B36F20937CD000170285 /* MarvelTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarvelTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5B1B37220937CD000170285 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F5B1B37420937CD000170285 /* CharactersTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersTableViewController.swift; sourceTree = "<group>"; };
@@ -92,6 +98,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F515FAEE20949D8C00F3AA60 /* DBModels */ = {
+			isa = PBXGroup;
+			children = (
+				F515FAE920949D5B00F3AA60 /* MCharacter+CoreDataClass.swift */,
+				F515FAEA20949D5B00F3AA60 /* MCharacter+CoreDataProperties.swift */,
+			);
+			path = DBModels;
+			sourceTree = "<group>";
+		};
 		F5B1B36620937CD000170285 = {
 			isa = PBXGroup;
 			children = (
@@ -115,6 +130,7 @@
 		F5B1B37120937CD000170285 /* MarvelTest */ = {
 			isa = PBXGroup;
 			children = (
+				F515FAEE20949D8C00F3AA60 /* DBModels */,
 				F5B1B37220937CD000170285 /* AppDelegate.swift */,
 				F5B1B37620937CD000170285 /* Main.storyboard */,
 				F5B1B37B20937CD000170285 /* LaunchScreen.storyboard */,
@@ -124,6 +140,7 @@
 				F5B1B37920937CD000170285 /* Assets.xcassets */,
 				F5B1B3A620938ABA00170285 /* Helpers */,
 				F5B1B37E20937CD000170285 /* Info.plist */,
+				F515FAE220949AE600F3AA60 /* Marvel.xcdatamodeld */,
 			);
 			path = MarvelTest;
 			sourceTree = "<group>";
@@ -332,11 +349,14 @@
 				F5B1B3B0209395BA00170285 /* CharacterTableViewCell.swift in Sources */,
 				F5B1B37320937CD000170285 /* AppDelegate.swift in Sources */,
 				F5B1B3B52093D0A500170285 /* Extensions.swift in Sources */,
+				F515FAE420949AE600F3AA60 /* Marvel.xcdatamodeld in Sources */,
+				F515FAEB20949D5B00F3AA60 /* MCharacter+CoreDataClass.swift in Sources */,
 				F5B1B3AB20938E9600170285 /* Thumbnail.swift in Sources */,
 				F5B1B3A820938B2C00170285 /* Character.swift in Sources */,
 				F5B1B3BE2093EC9400170285 /* Url.swift in Sources */,
 				F5B1B3A52093882F00170285 /* HelperMethods.swift in Sources */,
 				F5B1B3A3209386E900170285 /* APIService.swift in Sources */,
+				F515FAEC20949D5B00F3AA60 /* MCharacter+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -636,6 +656,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		F515FAE220949AE600F3AA60 /* Marvel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				F515FAE320949AE600F3AA60 /* Marvel.xcdatamodel */,
+			);
+			currentVersion = F515FAE320949AE600F3AA60 /* Marvel.xcdatamodel */;
+			path = Marvel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = F5B1B36720937CD000170285 /* Project object */;
 }

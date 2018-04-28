@@ -17,4 +17,12 @@ struct Thumbnail {
         return "\(self.path).\(self.imgExtension)"
     }
     
+    func getPath() -> String {
+        return path
+    }
+    
+    func getExtension() -> String {
+        return imgExtension
+    }
+    
 }

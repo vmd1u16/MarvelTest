@@ -48,6 +48,23 @@ class Character {
         
     }
     
+    init(mCharacter : MCharacter) {
+        
+        self.id = Int(mCharacter.id)
+        self.name = mCharacter.name
+        self.description = mCharacter.mDescription
+        self.detailURL = mCharacter.detailURL
+        
+        if let path = mCharacter.thumbnailPath {
+            if let tExtension = mCharacter.thumbnailExtension {
+                   self.thumbnail = Thumbnail(path: path, imgExtension: tExtension)
+            }
+            
+        }
+     
+
+    }
+    
     // getters
     func getID() -> Int {
         return id!

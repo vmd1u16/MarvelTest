@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class CharactersTableViewController: UITableViewController, CharacterViewCellProtocol {
    
@@ -18,13 +19,16 @@ class CharactersTableViewController: UITableViewController, CharacterViewCellPro
     
     var selectedIndex = 0
     
+    var managedObjectContext:NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.estimatedRowHeight = 200
         tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.tableFooterView = UIView()
         
-        startGetCharactersApi()
+        getCharacters()
         
     }
     
@@ -36,8 +40,30 @@ class CharactersTableViewController: UITableViewController, CharacterViewCellPro
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 238/255, green: 18/255, blue: 28/255, alpha: 1.0)
     }
     
-    func startGetCharactersApi() {
+    
+    
+    func getCharacters() {
+        
+        
         self.showActivityIndicator()
+        self.fetchCharactersFromLocalDB(completionHandler: {(completedSuccessfully) -> Void in
+        
+            // if characters data from db couldn't be loaded or there is no data to be loaded
+            if completedSuccessfully == false || self.charactersArray.count == 0 {
+                
+                self.startGetCharactersApi()
+                
+            }
+            else {
+                self.hideActivityIndicator()
+            }
+            
+            
+        })
+        
+    }
+    
+    func startGetCharactersApi() {
         
         requestGetCharactersApi( completionHandler: { ( successfullyCompleted) -> Void in
             
@@ -113,8 +139,86 @@ class CharactersTableViewController: UITableViewController, CharacterViewCellPro
         for characterJson in charactersJson {
             let character = Character(json : characterJson as NSDictionary)
             charactersArray.append(character)
+            
+            // if is not stored in DB, create object
+            if !checkIfCharacterIsStoredInDB(character: character) {
+                let mCharacter = MCharacter(context: managedObjectContext)
+                self.configure(mCharacter: mCharacter, character: character)
+            }
+            
+        }
+        
+        // try to save mCharacters objects to db
+        do {
+            try self.managedObjectContext.save()
+        }
+        catch {
+            print ("Could not save data \(error.localizedDescription)")
         }
 
+        completionHandler(true)
+    }
+    
+    // check if character is stored in DB and update it
+    func checkIfCharacterIsStoredInDB(character : Character) -> Bool {
+        
+        var isInDB = false
+    
+        let request = MCharacter.createFetchRequest()
+        let predicate = NSPredicate(format: "id == %i", character.getID())
+        request.predicate = predicate
+        request.fetchLimit = 1
+        
+        if let result = try? managedObjectContext.fetch(request) {
+            if result.count > 0 {
+                isInDB = true
+            }
+        }
+        
+        return isInDB
+        
+    }
+    
+    // set values from character element to mCharacter object
+    func configure(mCharacter: MCharacter, character: Character) {
+        
+        mCharacter.id = Int64(character.getID())
+        mCharacter.name = character.getName()
+        mCharacter.mDescription = character.getDescription()
+        mCharacter.thumbnailPath = character.getThumbnail().getPath()
+        mCharacter.thumbnailExtension = character.getThumbnail().getExtension()
+    }
+    
+    
+    func fetchCharactersFromLocalDB(completionHandler: @escaping (_ completed: Bool?) -> ()) {
+        
+        let request = MCharacter.createFetchRequest()
+        
+        do {
+            let mCharacters = try managedObjectContext.fetch(request)
+            
+            convertMCharactersToCharacters(mCharacters: mCharacters, completionHandler: { (completed) -> Void in
+                completionHandler(true)
+            })
+            
+        }
+        catch {
+            print("Could not load data \(error.localizedDescription) ")
+            completionHandler(false)
+        }
+        
+    }
+    
+    func convertMCharactersToCharacters(mCharacters : [MCharacter], completionHandler: @escaping (_ completed: Bool?) -> ()) {
+        
+        
+        for mCharacter in mCharacters {
+            
+            let character = Character(mCharacter: mCharacter)
+            charactersArray.append(character)
+            
+        }
+        
         completionHandler(true)
     }
     
