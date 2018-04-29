@@ -47,15 +47,13 @@ class CharactersTableViewController: UITableViewController, CharacterViewCellPro
         self.showActivityIndicator()
         self.fetchCharactersFromLocalDB(completionHandler: {(completedSuccessfully) -> Void in
         
-            // if characters data from db couldn't be loaded or there is no data to be loaded
-            if completedSuccessfully == false || self.charactersArray.count == 0 {
-                
-                self.startGetCharactersApi()
-                
-            }
-            else {
+            // if characters were loaded from db
+            if self.charactersArray.count != 0 {
                 self.hideActivityIndicator()
             }
+            
+            // call get characters api anyway - in case there are new characters in the list
+            self.startGetCharactersApi()
             
             
         })
@@ -133,12 +131,12 @@ class CharactersTableViewController: UITableViewController, CharacterViewCellPro
         
         for characterJson in charactersJson {
             let character = Character(json : characterJson as NSDictionary)
-            charactersArray.append(character)
             
             // if is not stored in DB, create object
             if !checkIfCharacterIsStoredInDB(character: character) {
                 let mCharacter = MCharacter(context: managedObjectContext)
                 self.configure(mCharacter: mCharacter, character: character)
+                charactersArray.append(character)
             }
             
         }
